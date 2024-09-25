@@ -42,7 +42,8 @@ export function mostrarTurno(jugadores) {
     container.classList.add('tablas');
     turno.appendChild(container);
     
-    // Para cada tipo de jugador, crear una tabla con los jugadores de ese tipo usando el esquema anterior
+    let orden = ['Humano', 'Maquina', 'Extraterrestre'];
+    tipos = Array.from(tipos).sort((a, b) => orden.indexOf(a) - orden.indexOf(b));
     tipos.forEach(tipo => {
         let section = document.createElement('section');
         container.appendChild(section);
@@ -55,17 +56,15 @@ export function mostrarTurno(jugadores) {
         tabla.classList.add('tabla');
         section.appendChild(tabla);
 
-        let thead = document.createElement('tr');
+        let thead = document.createElement('th');
         tabla.appendChild(thead);
 
         let thNombre = document.createElement('h4');
         thNombre.textContent = '🏷️ Nombre';
-        thNombre.classList.add('h_nom');
         thead.appendChild(thNombre);
 
         let thSalud = document.createElement('h4');
         thSalud.textContent = '❤️ Salud';
-        thSalud.classList.add('h_sal');
         thead.appendChild(thSalud);
 
         jugadores.filter(jugador => jugador.constructor.name === tipo).forEach(jugador => {
@@ -74,16 +73,12 @@ export function mostrarTurno(jugadores) {
 
             let tdNombre = document.createElement('td');
             tdNombre.textContent = jugador._nombre;
-            tdNombre.classList.add('c_nom');
             tr.appendChild(tdNombre);
 
             let tdSalud = document.createElement('td');
             tdSalud.textContent = jugador._salud;
-            tdSalud.classList.add('c_sal');
             tr.appendChild(tdSalud);
         });
-
-        section.classList.add(tipo.toLowerCase());
     });
 
     // Hacer scroll automático al final de la página

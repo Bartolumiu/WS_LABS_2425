@@ -1,70 +1,82 @@
+/**
+ * This CSS file contains the main styles for the WS_LABS_2425 project.
+ * It includes global styles and specific styles for various components.
+ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Create a card for each turn */
-.turno {
-    display: grid;
-    grid-template-areas: "titulo" "tablas";
-    grid-template-columns: minmax(0, 1fr);
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #f4f4f4;
     padding: 1rem;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.turno h2 {
-    grid-area: titulo;
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+h2 {
     font-size: 2rem;
     color: #333;
 }
 
-/* Show the tables in a horizontally aligned grid */
-.tablas {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 1rem;
-}
-
-section h3 {
-    grid-area: titulo;
+h3 {
     font-size: 1.5rem;
     color: #333;
 }
 
-/* Show the table in a card-like style */
-.tabla {
-    display: grid;
-    grid-template-areas:
-    "h_nom" "h_sal"
-    "c_nom" "c_sal";
-    grid-template-columns: minmax(0, 1fr);
-    padding: 1rem;
-    border-radius: 5px;
-    background-color: #fff;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Show the table header */
-.tabla h4 {
+h4 {
     font-size: 1.2rem;
     color: #333;
 }
 
-.h_nom {
-    grid-area: h_nom;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
-.h_sal {
-    grid-area: h_sal;
+.turno {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
-.c_nom {
-    grid-area: c_nom;
+.turno h2 {
+    color: #333;
 }
 
-.c_sal {
-    grid-area: c_sal;
+.tablas {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+section {
+    width: 30%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
 }
