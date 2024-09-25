@@ -24,23 +24,56 @@ jugadores.sort(() => Math.random() - 0.5);
 // Crear un array de jugadores vivos
 let vivos = jugadores.slice();
 
-// Simular una lucha entre los jugadores
-while (vivos.length > 1) {
-    // Seleccionar un atacante y la siguiente posición en el array como objetivo
-    // En caso de que el array tenga un número impar de jugadores, el último jugador no tendrá un objetivo y pasará el turno
-    for (let i = 0; i < vivos.length - 1; i += 2) {
-        vivos[i].luchar(vivos[i + 1]);
+// Función para iniciar el juego
+async function iniciarJuego() {
+    while (vivos.length > 1) {
+        // Simular el combate en el turno actual
+        for (let i = 0; i < vivos.length - 1; i += 2) {
+            vivos[i].luchar(vivos[i + 1]);
+        }
+
+        // Mostrar el estado actual de la batalla y los jugadores vivos
+        mostrarTurno(vivos);
+
+        // Eliminar a los jugadores con salud menor o igual a 0
+        vivos = vivos.filter(jugador => jugador._salud > 0);
+
+        // Ordenar aleatoriamente los jugadores restantes
+        vivos.sort(() => Math.random() - 0.5);
+
+        // Esperar a que el usuario pulse el botón para continuar
+        await new Promise(resolve => {
+            // Agregar un botón para avanzar al siguiente turno si no hay ganador
+            if (vivos.length > 1) {
+                let turnoDiv = document.querySelector('.turno'); // Buscar el último turno en el documento
+                let boton = document.createElement('button');
+                boton.textContent = 'Siguiente turno';
+                boton.classList.add('boton');
+                boton.addEventListener('click', () => {
+                    // Eliminar el botón para evitar múltiples clics
+                    boton.remove();
+                    resolve();
+                });
+                turnoDiv.appendChild(boton);
+            } else {
+                resolve();
+            }
+        });
+
+        // Esperar un segundo para visualizar el resultado
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        iniciarJuego();
     }
 
-    // Eliminar a los jugadores con salud menor o igual a 0
-    vivos = vivos.filter(jugador => jugador._salud > 0);
-
-    // Ordenar aleatoriamente los jugadores restantes
-    vivos.sort(() => Math.random() - 0.5);
-
-    // Mostrar los resultados de cada turno
-    mostrarTurno(vivos);
+    // Si solo queda un jugador, mostrar el ganador
+    if (vivos.length === 1) {
+        console.log(`El jugador ganador es ${vivos[0]._nombre} de tipo ${vivos[0].constructor.name}`);
+        mostrarTurno(vivos);
+    } else {
+        console.log('No hay ganador, todos han caído.');
+    }
 }
 
-// Mostrar el nombre del jugador ganador
-console.log(`El jugador ganador es ${vivos[0]._nombre} de tipo ${vivos[0].constructor.name}`);
+// Iniciar el juego
+iniciarJuego();
