@@ -16,7 +16,10 @@ class Maquina extends Jugador {
      * @param {string} nombre - Nombre de la máquina.
      */
     constructor(nombre) {
-        super(nombre, Math.floor(Math.random() * 99 + 1), 130);
+        // Versiones alternativas cálculo fuerza
+        // Math.floor(Math.random() * 100 + 1)
+        // Math.ceil(Math.random() * 100)
+        super(nombre, Math.round(Math.random() * 99 + 1), 130); // [1-100]
     }
 }
 

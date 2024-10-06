@@ -17,7 +17,10 @@ class Extraterrestre extends Jugador {
      * @param {string} nombre - Nombre del extraterrestre.
      */
     constructor(nombre) {
-        super(nombre, Math.floor(Math.random() * 84 + 1), 150);
+        // Versiones alternativas cálculo fuerza
+        // Math.floor(Math.random() * 85 + 1)
+        // Math.ceil(Math.random() * 85)
+        super(nombre, Math.round(Math.random() * 84 + 1), 150); // [1-85]
     }
 }
 
