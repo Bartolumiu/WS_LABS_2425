@@ -7,3 +7,7 @@
 *.rar
 *.tar
 *.zip
+
+# NodeJS
+node_modules/
+npm-debug.log
