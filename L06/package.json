@@ -1,0 +1,17 @@
+{
+    "name": "ws-labs-2425-l06",
+    "version": "1.0.0",
+    "main": "app.js",
+    "devDependencies": {},
+    "scripts": {
+        "start": "node .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "GPL-v3.0",
+    "description": "",
+    "dependencies": {
+        "express": "^4.21.1"
+    }
+}
