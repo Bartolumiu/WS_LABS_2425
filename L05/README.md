@@ -3,7 +3,7 @@
 
 Aplicación web simple que muestra una animación de Mario corriendo utilizando una hoja de sprites. La animación se implementa en JavaScript usando `Canvas` y gestiona los sprites a través de clases y módulos.
 
-### Estructura del proyecto
+### Estructura del Proyecto
 
 El proyecto está organizado en la siguiente estructura:
 
@@ -17,7 +17,7 @@ L05
 └── package.json # Archivo de configuración de Node.js
 ```
 
-### Descripción de archivos
+### Descripción de Archivos
 1. **index.html**: Contiene la estructura de la página web y el script para la animación.
 2. **index.js**: Controla la lógica principal del proyecto:
     - Crea un elemento `Canvas` y lo añade al `DOM`.

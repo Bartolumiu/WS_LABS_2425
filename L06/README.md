@@ -3,7 +3,7 @@
 
 Aplicación web simple de gestión de tareas que permite agregar, borrar, subir y bajar tareas desde `localStorage` en el lado del cliente y un servidor `ExpressJS` en el lado del servidor. La aplicación interactúa con el almacenamiento local del navegador y sincroniza las tareas con el servidor para guardarlas en el sistema de archivos.
 
-### Estructura del proyecto
+### Estructura del Proyecto
 
 El proyecto está organizado en la siguiente estructura:
 
@@ -15,7 +15,7 @@ L06
 └── app.js # Servidor ExpressJS del lado del servidor
 ```
 
-### Descripción de archivos
+### Descripción de Archivos
 1. **index.html**: Contiene el diseño básico de la página web, incluyendo el campo de entrada para tareas y los botones de control. Los elementos principales incluyen:
     - Un campo de texto (`input`) para ingresar nombres de tareas.
     - Un botón para agregar tareas.
