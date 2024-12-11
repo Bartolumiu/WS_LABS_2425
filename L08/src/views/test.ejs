@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Estudiantes</title>
+    <script>
+        async function fetchEstudiantes() {
+            const response = await fetch('/api/estudiantes');
+            const data = await response.json();
+            document.getElementById('estudiantes').innerText = JSON.stringify(data, null, 2);
+
+            // Rellenar el select de estudiantes para editar con los datos obtenidos
+            const select = document.getElementById('editId');
+            select.innerHTML = '<option value="" disabled selected>Elige un estudiante</option>';
+            data.forEach(estudiante => {
+                const option = document.createElement('option');
+                option.value = estudiante._id;
+                option.innerText = estudiante.email;
+                select.appendChild(option);
+            });
+
+            // Rellenar el select de estudiantes para asignar con los datos obtenidos
+            const selectAssign = document.getElementById('assignEstudiante');
+            selectAssign.innerHTML = '<option value="" disabled selected>Elige un estudiante</option>';
+            data.forEach(estudiante => {
+                const option = document.createElement('option');
+                option.value = estudiante._id;
+                option.innerText = estudiante.email;
+                selectAssign.appendChild(option);
+            });
+        }
+
+        async function createEstudiante() {
+            const nombre = document.getElementById('nombre').value;
+            const edad = document.getElementById('edad').value;
+            const email = document.getElementById('email').value;
+
+            const response = await fetch('/api/estudiantes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre, edad, email })
+            });
+
+            const data = await response.json();
+            document.getElementById('newEstudiante').innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function deleteEstudiante() {
+            const id = document.getElementById('deleteId').value;
+
+            const response = await fetch(`/api/estudiantes/${id}`, { method: 'DELETE' });
+
+            const data = await response.json();
+            document.getElementById('deletedEstudiante').innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function editEstudiante() {
+            const id = document.getElementById('editId').value;
+            const nombre = document.getElementById('editNombre').value;
+            const edad = document.getElementById('editEdad').value;
+            const email = document.getElementById('editEmail').value;
+
+            if (!id) {
+                alert('Por favor, selecciona un estudiante para editar.');
+                return;
+            }
+
+            const response = await fetch(`/api/estudiantes/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre, edad, email })
+            });
+
+            const data = await response.json();
+            document.getElementById('editedEstudiante').innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function getEstudiante() {
+            const id = document.getElementById('editId').value;
+            if (!id) return; // No se ha seleccionado nada (o se ha seleccionado el valor por defecto)
+
+            const response = await fetch(`/api/estudiantes/${id}`);
+            const data = await response.json();
+
+            document.getElementById('editNombre').value = data.nombre;
+            document.getElementById('editEdad').value = data.edad;
+            document.getElementById('editEmail').value = data.email;
+        }
+
+        async function createGroup() {
+            const nombre = document.getElementById('createGroupName').value;
+
+            const response = await fetch('/api/grupos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ nombre })
+            });
+
+            const data = await response.json();
+            document.getElementById('createdGrupo').innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function fetchGrupos() {
+            const response = await fetch('/api/grupos');
+            const data = await response.json();
+            document.getElementById('grupos').innerText = JSON.stringify(data, null, 2);
+
+            // Rellenar el select de grupos para asignar con los datos obtenidos
+            const select = document.getElementById('assignGrupo');
+            select.innerHTML = '<option value="" disabled selected>Elige un grupo</option>';
+            data.forEach(grupo => {
+                const option = document.createElement('option');
+                option.value = grupo._id;
+                option.innerText = grupo.nombre;
+                select.appendChild(option);
+            });
+        }
+
+        async function assignGroup() {
+            const grupoId = document.getElementById('assignGrupo').value;
+            const estudianteId = document.getElementById('assignEstudiante').value;
+
+            if (!grupoId || !estudianteId) {
+                alert('Por favor, selecciona un grupo y un estudiante.');
+                return;
+            }
+
+            const response = await fetch(`/api/grupos/assign`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ grupoId, estudianteId })
+            });
+
+            const data = await response.json();
+            document.getElementById('assignedGrupo').innerText = JSON.stringify(data, null, 2);
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Test API Estudiantes</h1>
+    <button onclick="fetchEstudiantes()">Get Estudiantes</button>
+    <pre id="estudiantes"></pre>
+
+    <h2>Create Estudiante</h2>
+    <form onsubmit="event.preventDefault(); createEstudiante();">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <br>
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <button type="submit">Create</button>
+    </form>
+    <pre id="newEstudiante"></pre>
+
+    <h2>Delete Estudiante</h2>
+    <form onsubmit="event.preventDefault(); deleteEstudiante();">
+        <label for="deleteId">ID:</label>
+        <input type="text" id="deleteId" name="deleteId" required>
+        <button type="submit">Delete</button>
+    </form>
+    <pre id="deletedEstudiante"></pre>
+
+    <h2>Edit Estudiante</h2>
+    <form onsubmit="event.preventDefault(); editEstudiante();">
+        <label for="editId">Elige un estudiante:</label>
+        <select id="editId" name="estudiantes" onchange="getEstudiante()">
+            <option value="" disabled selected>Elige un estudiante</option>
+        </select>
+        <br>
+        <label for="editNombre">Nombre:</label>
+        <input type="text" id="editNombre" name="editNombre" required>
+        <br>
+        <label for="editEdad">Edad:</label>
+        <input type="number" id="editEdad" name="editEdad" required>
+        <br>
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" name="editEmail" required>
+        <br>
+        <button type="submit">Edit</button>
+    </form>
+    <pre id="editedEstudiante"></pre>
+
+    <h2>Create Grupo</h2>
+    <form onsubmit="event.preventDefault(); createGroup();">
+        <label for="createGroupName">Nombre del grupo</label>
+        <input type="text" id="createGroupName" name="createGroupName" required>
+        <br>
+        <button type="submit">Create</button>
+    </form>
+    <pre id="createdGrupo"></pre>
+
+    <h2>Assign Grupo to Estudiante</h2>
+    <form onsubmit="event.preventDefault(); assignGroup();">
+        <label for="assignGrupo">Grupo:</label>
+        <select name="grupos" id="assignGrupo">
+            <option value="" disabled selected>Elige un grupo</option>
+        </select>
+        <br>
+        <label for="assignEstudiante">Estudiante:</label>
+        <select name="estudiantes" id="assignEstudiante">
+            <option value="" disabled selected>Elige un estudiante</option>
+        </select>
+        <br>
+        <button type="submit">Assign</button>
+    </form>
+    <pre id="assignedGrupo"></pre>
+
+    <h2>Get Grupos</h2>
+    <button onclick="fetchGrupos()">Get Grupos</button>
+    <pre id="grupos"></pre>
+</body>
+
+</html>
